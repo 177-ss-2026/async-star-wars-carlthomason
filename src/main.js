@@ -23,7 +23,7 @@ getPlanet(1); */
 getPlanet(999); // Bad ID — watch the console */
 
 //Try It 3: Hook Up a Form
-const select = document.querySelector("#sw-select");
+/* const select = document.querySelector("#sw-select");
 
 select.addEventListener("change", async (event) => {
   const category = event.target.value;
@@ -38,4 +38,27 @@ select.addEventListener("change", async (event) => {
 
   const data = await resp.json();
   console.info(data);
+}); */
+
+//Try It 4: Show a Loading State
+const select = document.querySelector("#sw-select");
+const output = document.querySelector("#output");
+
+select.addEventListener("change", async (event) => {
+  const category = event.target.value;
+  if (!category) return;
+
+  // Loading state
+  output.textContent = `Loading ${category}...`;
+
+  const resp = await fetch(`https://swapi.info/api/${category}/`);
+
+  if (!resp.ok) {
+    output.textContent = `Something went wrong. Status: ${resp.status}`;
+    return;
+  }
+
+  const data = await resp.json();
+  console.info(data);
+  output.textContent = `Loaded ${data.length} results.`;
 });
